@@ -1,0 +1,135 @@
+/*	-WHAT IS THIS?-
+	This file adds optional material to "MPMB's Character Record Sheet" found at https://flapkan.com/mpmb/charsheets
+	Import this file using the "Add Extra Materials" bookmark.
+	-KEEP IN MIND-
+	It is recommended to enter the code in a fresh sheet before adding any other information (i.e. before making your character with it).
+*/
+
+/*  -INFORMATION-
+	Subject:    Artificer Specialization: Arcane Machinist
+	Effect:     Adds the Artificer Specialization Arcane Machinist as a selectable subclass
+	Code by:	u/DeathCell593
+    Author:     DeathCell593
+	Date:		2023-08-08 (sheet v13.1.17)
+*/
+
+var iFileName = "Artificer Specialization - Arcane Machinist by DeathCell593.js";
+
+if (sheetVersion < 13001007) {
+  throw "This script was made for a newer version of the sheet (v13.1.7). Please use the latest version and try again.\nYou can get the latest version at www.flapkan.com.";
+}
+
+var iFileName = "all_WotC_pub+UA.js";
+RequiredSheetVersion("13.1.7");
+
+SourceList["NB2:AM"] = {
+  name: "Artificer Specialization: Arcane Machinist",
+  abbreviation: "NB2:AM",
+  group: "Homebrew",
+  url: "https://homebrewery.naturalcrit.com/share/WKIaKiq7EcN7",
+  date: "2023/08/08",
+};
+
+var arcaneMachinistSubclassObj = {
+  regExpSearch: /^(?=.*arcane)(?=.*machinist).*$/i,
+  subname: "Arcane Machinist",
+  fullname: "Arcane Machinist",
+  source: ["NB2:AM", 1],
+  features: {
+    subclassfeature3: {
+      name: "Arcane Construct Companion",
+      source: ["NB2:AM", 1],
+      minlevel: 3,
+      description: "I gain a mechanical companion called the Arcane Construct. The construct acts on my initiative and can take bonus actions to use its various abilities.",
+      spellcastingExtra: ["shield", "magic missile", "shatter", "misty step", "fireball", "dispel magic", "arcane eye", "wall of fire", "cone of cold", "teleportation circle"],
+      additional: ["Arcane Construct gains an additional damage die for its abilities at levels 5, 9, and 15."]
+    },
+    subclassfeature5: {
+      name: "Enhanced Arsenal",
+      source: ["NB2:AM", 1],
+      minlevel: 5,
+      description: "At 5th level, my Arcane Construct's abilities deal additional damage. It gains an extra damage die for its Flamethrower, Force Ballista, Artillery Cannon, Repulsion Field, Healing Station, and Protector abilities."
+    },
+    subclassfeature9_1: {
+      name: "Self-Destruct",
+      source: ["NB2:AM", 1],
+      minlevel: 9,
+      description: "At 9th level, my Arcane Construct can self-destruct, dealing 3d8 force damage in a 20-foot radius. This destroys the construct.",
+      action: ["reaction", ""]
+    },
+    subclassfeature9_2: {
+      name: "Arcane Overdrive",
+      source: ["NB2:AM", 1],
+      minlevel: 9,
+      description: "At 9th level, I can use spell slots to activate Evolved Actions for my Arcane Construct, enhancing its abilities.",
+      additional: ["Evolved Flamethrower (3rd-level spell slot)", "Evolved Force Ballista (3rd-level spell slot)"],
+      action: ["bonus action", ""]
+    },
+    subclassfeature13: {
+      name: "Advanced Upgrades",
+      source: ["NB2:AM", 1],
+      minlevel: 13,
+      description: "At 13th level, my Arcane Construct gains access to advanced Evolved Actions.",
+      additional: ["Evolved Repulsion Field (4th-level spell slot)", "Evolved Healing Station (4th-level spell slot)", "Evolved Protector (4th-level spell slot)"]
+    },
+    subclassfeature15: {
+      name: "Masterwork Construct",
+      source: ["NB2:AM", 1],
+      minlevel: 15,
+      description: "At 15th level, my Arcane Construct gains additional upgrades, increasing the damage of its abilities further and gaining automatic reconstruction.",
+      additional: ["Evolved Artillery Cannon (5th-level spell slot)"]
+    }
+  }
+};
+
+// Adding Arcane Machinist subclass to the character sheet
+AddSubClass("artificer", "arcane machinist", arcaneMachinistSubclassObj);
+
+// Adding player actions for Arcane Construct's abilities
+AddAction("Flamethrower", "Arcane Machinist", {
+  name: "Flamethrower",
+  description: "Dex save, DC 14, range 15 ft cone, 2d8 fire damage (save for half)",
+  tooltip: "Dex save, DC 14, range 15 ft cone, 2d8 fire damage (save for half)"
+});
+
+AddAction("Force Ballista", "Arcane Machinist", {
+  name: "Force Ballista",
+  description: "Ranged spell attack, range 120 ft, +6 to hit, 2d8 force damage, pushes target 5 ft",
+  tooltip: "Ranged spell attack, range 120 ft, +6 to hit, 2d8 force damage, pushes target 5 ft"
+});
+
+AddAction("Artillery Cannon", "Arcane Machinist", {
+  name: "Artillery Cannon",
+  description: "Ranged spell attack, range 60/240 ft, +6 to hit, 2d6 force damage, 10-ft radius",
+  tooltip: "Ranged spell attack, range 60/240 ft, +6 to hit, 2d6 force damage, 10-ft radius"
+});
+
+AddAction("Repulsion Field", "Arcane Machinist", {
+  name: "Repulsion Field",
+  description: "Str save, DC 12, range 10-ft radius, 1d10 force damage, pushes 10 ft on fail (half damage and no push on success)",
+  tooltip: "Str save, DC 12, range 10-ft radius, 1d10 force damage, pushes 10 ft on fail (half damage and no push on success)"
+});
+
+AddAction("Healing Station", "Arcane Machinist", {
+  name: "Healing Station",
+  description: "Restores 2d6 HP to allies within 10-ft radius",
+  tooltip: "Restores 2d6 HP to allies within 10-ft radius"
+});
+
+AddAction("Protector", "Arcane Machinist", {
+  name: "Protector",
+  description: "Grants 1d8 + PB temp HP to self and one ally within 30 ft",
+  tooltip: "Grants 1d8 + PB temp HP to self and one ally within 30 ft"
+});
+
+AddAction("reaction", "Self-Destruct", "Arcane Machinist", {
+  name: "Self-Destruct",
+  description: "Dex save, DC 8 + PB + Int mod, range 20-ft radius, 3d8 force damage (half on save), destroys construct",
+  tooltip: "Dex save, DC 8 + PB + Int mod, range 20-ft radius, 3d8 force damage (half on save), destroys construct"
+});
+
+AddAction("bonus action", "Arcane Overdrive", "Arcane Machinist", {
+  name: "Arcane Overdrive",
+  description: "Consumes spell slot to activate Evolved Actions",
+  tooltip: "Consumes spell slot to activate Evolved Actions"
+});
